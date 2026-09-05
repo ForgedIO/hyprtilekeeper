@@ -8,8 +8,32 @@ where it belongs.
 The window keeps its place in the dwindle tree, including its parent, side, and
 split ratio.
 
-Hide a reference window while doing quick work in your editor and terminal.
-When you need the reference again, restore it with one shortcut.
+## Why use it?
+
+Sometimes you need two windows to have more room while you work between them.
+Imagine an editor, a terminal, and a browser tiled on your screen. For the next
+few minutes, you only need the editor and terminal. Hide the browser, use the
+reclaimed space, then bring it back when you need it again.
+
+```text
+Before                  Hide browser             Restore browser
+┌──────────┬──────────┐  ┌──────────┬──────────┐  ┌──────────┬──────────┐
+│          │ Terminal │  │          │          │  │          │ Terminal │
+│  Editor  ├──────────┤  │  Editor  │ Terminal │  │  Editor  ├──────────┤
+│          │ Browser  │  │          │          │  │          │ Browser  │
+└──────────┴──────────┘  └──────────┴──────────┘  └──────────┴──────────┘
+```
+
+On Omarchy, **Super + F** works well when you want one window fullscreen;
+toggle it again to return to your tiles. Tile Keeper serves a different moment:
+you still want several windows visible and usable together, but one tile can
+temporarily get out of the way.
+
+The useful part is remembering where that tile belongs. You can reclaim its
+space without closing the app or manually rebuilding the arrangement afterward.
+When the surrounding layout is unchanged, restore brings it back to the same
+position and size. If you rearrange the workspace while it is hidden, the
+available layout changes too; this is not a workspace undo feature.
 
 ## Status
 
