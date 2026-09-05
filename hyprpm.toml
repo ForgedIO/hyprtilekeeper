@@ -1,0 +1,9 @@
+[repository]
+name = "hyprtilekeeper"
+authors = ["cday"]
+
+[hyprtilekeeper]
+description = "Minimize tiled windows while preserving their exact dwindle-tree position"
+authors = ["cday"]
+output = "hyprtilekeeper.so"
+build = ["make all"]
