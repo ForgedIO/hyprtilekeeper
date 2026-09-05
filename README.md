@@ -145,13 +145,35 @@ tiles, then log out and back in to activate the new build. The installer avoids
 unloading code from your running compositor. If you downloaded a ZIP, download
 the updated source and run its installer instead.
 
-To remove, restore hidden tiles first. Delete the block between
-`-- BEGIN hyprtilekeeper installer` and `-- END hyprtilekeeper installer` in
-`hyprland.lua`, and set your layout to `dwindle` if it was manually configured
-elsewhere. Log out and back in. You can then delete
-`~/.local/share/hyprtilekeeper/`. If migrating from an older manual setup, also
-remove its tilekeeper shortcuts and layout setting. Switching layouts can
-rearrange tiles.
+## Uninstall
+
+From the repository directory, run:
+
+```sh
+./uninstall.sh
+```
+
+**No sudo required.** For an installation made by `install.sh`, this backs up
+configuration and the library, switches to dwindle, unloads the plugin, removes
+its managed configuration block and installed library, then reloads and validates
+Hyprland. Unloading restores hidden Tile Keeper windows. Switching layouts may
+rearrange tiles. Configuration outside the managed block is preserved, including
+edits made after installation; normal configured shortcuts apply again.
+
+If Hyprland cannot start, run from a TTY as your normal user:
+
+```sh
+./uninstall.sh --offline
+```
+
+Offline mode removes the files without contacting the compositor. Start a new
+session afterward; any process already running may still have the plugin loaded.
+
+Backups remain beside `hyprland.lua` in `tilekeeper-uninstall-backup-*` directories.
+System packages, the source checkout, and unrelated files are kept. Re-running
+uninstall is safe. If a custom/manual Tile Keeper configuration is detected
+outside the managed block, the script lists its files and stops before changing
+anything; remove those plugin load, shortcut, and layout settings, then rerun.
 
 ## Testing
 
@@ -176,7 +198,7 @@ every layout action.
 Installer checks can be run without touching a desktop:
 
 ```sh
-python3 -m unittest discover -s tests -p test_installer.py
+python3 -m unittest discover -s tests -p 'test_*installer.py'
 ```
 
 These use temporary directories and simulated compositor/package responses to

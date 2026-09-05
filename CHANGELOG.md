@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `./uninstall.sh` with live and offline removal, backups, and configuration
+  validation; keep unrelated files and system dependencies.
+
 - Add `./install.sh` for dependency installation, compilation, backed-up Lua
   configuration, and validation on Arch/Omarchy.
 - Add a read-only prerequisite check and installer rollback tests.
