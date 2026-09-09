@@ -131,6 +131,35 @@ Lua functions return a boolean and show a notification on failure. Legacy
 `tilekeeper:minimize` and `tilekeeper:restore` dispatchers are also registered,
 but `hyprctl dispatch tilekeeper:minimize` is invalid with the Lua parser.
 
+### Omarchy workspace-layout-toggle (Super+L) interaction
+
+Omarchy's `Super+L` binding cycles workspaces between dwindle and scrolling
+(filmstrip). It saves the choice to
+`~/.local/state/omarchy/workspace-layouts/*.lua`, and these files override the
+global layout on every boot — so workspaces you toggled will silently fall back
+to dwindle, breaking `Super+M`.
+
+The installer clears any saved overrides, but if you press `Super+L` again the
+conflict returns. To avoid this, use layout-aware wrapper scripts instead of
+calling the plugin directly. These check the current workspace layout and act
+accordingly:
+
+- **tilekeeper** → minimize / restore as normal.
+- **dwindle** → switch the workspace to tilekeeper, then minimize / restore.
+- **scrolling (filmstrip)** → do nothing (the plugin does not support
+  floating-style layouts).
+
+Example bindings for `~/.config/hypr/bindings.lua`:
+
+```lua
+o.bind("SUPER + M", "Minimize tile", "omarchy-tilekeeper-minimize")
+o.bind("SUPER + CTRL + M", "Restore minimized tile", "omarchy-tilekeeper-restore")
+```
+
+The wrapper scripts are shell scripts you place on your `PATH`. See
+`scripts/omarchy-tilekeeper-minimize` and `scripts/omarchy-tilekeeper-restore`
+in this repository for reference implementations.
+
 ## Updating or removing
 
 For a Git clone, update and rerun the installer:

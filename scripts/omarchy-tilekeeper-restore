@@ -1,0 +1,19 @@
+#!/bin/bash
+# Restore tile with layout awareness:
+#   filmstrip (scrolling) → do nothing
+#   tilekeeper → restore
+#   dwindle → switch to tilekeeper, then restore
+WORKSPACE=$(hyprctl activeworkspace -j | jq -r '.id')
+LAYOUT=$(hyprctl activeworkspace -j | jq -r '.tiledLayout')
+
+case "$LAYOUT" in
+  scrolling)
+    hyprctl notify -g "Filmstrip mode — restore disabled" 2>/dev/null
+    ;;
+  tilekeeper)
+    hyprctl eval "hl.plugin.tilekeeper.restore()"
+    ;;
+  dwindle)
+    hyprctl eval "hl.workspace_rule({ workspace = \"$WORKSPACE\", layout = \"tilekeeper\" }); hl.plugin.tilekeeper.restore()"
+    ;;
+esac
