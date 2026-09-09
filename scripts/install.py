@@ -78,6 +78,18 @@ def main():
     for bind in bindings:
         if str(bind.get('key', '')).upper() == 'M' and bind.get('modmask') in (64, 68):
             print('Replacing shortcut:', bind.get('description') or bind.get('dispatcher'), bind.get('arg', ''))
+    # Omarchy's workspace-layout-toggle saves per-workspace layout overrides
+    # (e.g. dwindle) that silently override the global layout.  Clear them so
+    # every workspace uses the tilekeeper layout.
+    state_home = Path(os.environ.get('XDG_STATE_HOME', str(Path.home() / '.local' / 'state')))
+    layouts_dir = state_home / 'omarchy' / 'workspace-layouts'
+    if layouts_dir.is_dir():
+        removed = []
+        for lua_file in sorted(layouts_dir.glob('*.lua')):
+            removed.append(lua_file.name)
+            lua_file.unlink()
+        if removed:
+            print('Cleared saved workspace layout overrides:', ', '.join(removed))
     print('Compatibility checks passed. Plugin destination:', destination)
     if check:
         print('Check only: no files or packages changed.')
